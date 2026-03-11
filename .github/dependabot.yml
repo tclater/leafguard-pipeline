@@ -1,0 +1,80 @@
+version: 2
+
+updates:
+  # ─── Python (backend/requirements.txt) ───────────────────────────────────────
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    labels:
+      - "dependencies"
+      - "python"
+    open-pull-requests-limit: 10
+    groups:
+      python-deps:
+        patterns:
+          - "*"
+
+  # ─── npm (frontend/package.json) ──────────────────────────────────────────────
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    labels:
+      - "dependencies"
+      - "javascript"
+    open-pull-requests-limit: 10
+    ignore:
+      # Avoid major version bumps on core libs — review those manually
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "vite"
+        update-types: ["version-update:semver-major"]
+    groups:
+      npm-dev-deps:
+        dependency-type: "development"
+        patterns:
+          - "*"
+      npm-prod-deps:
+        dependency-type: "production"
+        patterns:
+          - "*"
+
+  # ─── GitHub Actions ───────────────────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    open-pull-requests-limit: 5
+
+  # ─── Docker ───────────────────────────────────────────────────────────────────
+  - package-ecosystem: "docker"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    labels:
+      - "dependencies"
+      - "docker"
+
+  - package-ecosystem: "docker"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    labels:
+      - "dependencies"
+      - "docker"

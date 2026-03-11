@@ -6,9 +6,11 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 3000,
+    // Proxy /api/* to the backend container (Docker service name).
+    // The browser only ever talks to localhost:3000 — no CORS needed.
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'http://backend:8000',
+        target: 'http://backend:8000',
         changeOrigin: true,
       },
     },

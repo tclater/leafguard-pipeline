@@ -31,8 +31,9 @@ def list_customers(
         select(func.count()).select_from(query.subquery())
     ).scalar_one()
 
+    # MSSQL requires ORDER BY when using OFFSET/LIMIT
     items = db.execute(
-        query.offset((page - 1) * page_size).limit(page_size)
+        query.order_by(Customer.id).offset((page - 1) * page_size).limit(page_size)
     ).scalars().all()
 
     return CustomerList(

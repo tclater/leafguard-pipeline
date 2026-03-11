@@ -1,4 +1,5 @@
-FROM python:3.11-slim
+# Pin to Debian 12 (bookworm) — Microsoft ODBC packages only exist up to Debian 12
+FROM python:3.11-slim-bookworm
 
 # Install Microsoft ODBC Driver 18 for SQL Server
 RUN apt-get update && apt-get install -y \
@@ -6,7 +7,9 @@ RUN apt-get update && apt-get install -y \
     gnupg2 \
     apt-transport-https \
     unixodbc-dev \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
+    # Save key to /usr/share/keyrings/ — this is the path prod.list's signed-by references
+    && curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
+        | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
     && curl https://packages.microsoft.com/config/debian/12/prod.list \
         > /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update \

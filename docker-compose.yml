@@ -27,7 +27,6 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: "mssql+pyodbc://sa:${DB_PASSWORD}@db:1433/${DB_NAME}?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
       DB_HOST: "db"
       DB_PORT: "1433"
       DB_NAME: "${DB_NAME}"
@@ -50,8 +49,7 @@ services:
       target: "${FRONTEND_TARGET:-development}"
     ports:
       - "3000:3000"
-    environment:
-      VITE_API_URL: "${VITE_API_URL:-http://localhost:8000}"
+    # No VITE_API_URL in dev — Vite proxy forwards /api/* to backend:8000 internally
     depends_on:
       - backend
     volumes:

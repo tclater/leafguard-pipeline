@@ -1,5 +1,5 @@
 # Pin to Debian 12 (bookworm) — Microsoft ODBC packages only exist up to Debian 12
-FROM python:3.11-slim-bookworm
+FROM python:3.14-slim-bookworm
 
 # Install Microsoft ODBC Driver 18 for SQL Server
 RUN apt-get update && apt-get install -y \

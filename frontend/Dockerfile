@@ -1,5 +1,5 @@
 # ─── Development stage ────────────────────────────────────────────────────────
-FROM node:20-alpine AS development
+FROM node:25-alpine AS development
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
 
 
 # ─── Build stage ──────────────────────────────────────────────────────────────
-FROM node:20-alpine AS build
+FROM node:25-alpine AS build
 
 WORKDIR /app
 
